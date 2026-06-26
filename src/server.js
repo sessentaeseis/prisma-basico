@@ -9,8 +9,13 @@ app.use(cors())
 app.use(express.json())
 
 app.get("/produtos", async (req, res) => {
-    const itens = await prisma.produto.findMany()
-    res.json(itens)
+    try {
+        const itens = await prisma.produto.findMany()
+        res.json(itens)   
+    } catch (error) {
+        res.status(500).json({ error: "Erro ao buscar" })
+    }
+    
 }) 
 
 app.listen(PORT, () => {
