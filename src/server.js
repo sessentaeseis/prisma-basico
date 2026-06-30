@@ -36,14 +36,18 @@ app.post("/produtos", async (req, res) => {
 })
 
 app.put("/produtos/:id", async (req, res) => {
-    const {id} = req.params
-    const { nome, categoria, quantidade } = req.body
-
-    const produtoAtualizado = await prisma.produto.update({
-        where: { id: Number(id) },
-        data: { nome, categoria, quantidade: Number(quantidade) }
-    })
-    res.json(produtoAtualizado)
+    try {
+        const {id} = req.params
+        const { nome, categoria, quantidade } = req.body
+        const produtoAtualizado = await prisma.produto.update({
+            where: { id: Number(id) },
+            data: { nome, categoria, quantidade: Number(quantidade) }
+        })
+        res.json(produtoAtualizado)
+    }
+    catch(error) {
+        res.status(404).json({ error: "Produto não encontrado" })
+    }
 })  
 
 app.listen(PORT, () => {
