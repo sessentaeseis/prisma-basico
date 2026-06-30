@@ -48,7 +48,20 @@ app.put("/produtos/:id", async (req, res) => {
     catch(error) {
         res.status(404).json({ error: "Produto não encontrado" })
     }
-})  
+}) 
+
+app.delete("/produtos/:id", async (req, res) => {
+    try {
+        const{id} = req.params
+        await prisma.produto.delete({
+            where: { id: Number(id) }
+        })
+        res.status(204).send()
+    }
+    catch(error) {
+
+    }
+})
 
 app.listen(PORT, () => {
     console.log("server rodando na porta " + PORT)
