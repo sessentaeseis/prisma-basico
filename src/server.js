@@ -13,10 +13,27 @@ app.get("/produtos", async (req, res) => {
         const itens = await prisma.produto.findMany()
         res.json(itens)   
     } catch (error) {
-        res.status(500).json({ error: "Erro ao buscar" })
+        res.status(500).json({ error: "Erro ao buscar produtos" })
     }
     
 }) 
+
+app.post("/produtos", async (req, res) => {
+    try {
+        const {nome, categoria, quantidade} = req.body
+        const novoItem = await prisma.produto.create({
+            data: {
+                nome,
+                categoria,
+                quantidade: Number (quantidade)
+            }
+        })
+        res.status(201).json(novoItem)
+    }
+    catch(error) {
+        res.status(400).json({ error: "Erro ao criar produto" })
+    }
+})
 
 app.listen(PORT, () => {
     console.log("server rodando na porta " + PORT)
