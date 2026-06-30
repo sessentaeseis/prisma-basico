@@ -35,6 +35,17 @@ app.post("/produtos", async (req, res) => {
     }
 })
 
+app.put("/produtos/:id", async (req, res) => {
+    const {id} = req.params
+    const { nome, categoria, quantidade } = req.body
+
+    const produtoAtualizado = await prisma.produto.update({
+        where: { id: Number(id) },
+        data: { nome, categoria, quantidade: Number(quantidade) }
+    })
+    res.json(produtoAtualizado)
+})  
+
 app.listen(PORT, () => {
     console.log("server rodando na porta " + PORT)
 })
