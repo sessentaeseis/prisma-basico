@@ -59,7 +59,7 @@ app.delete("/produtos/:id", async (req, res) => {
         res.status(204).send()
     }
     catch(error) {
-
+        res.status(404).json({ error: "Produto não encontrado" })
     }
 })
 
